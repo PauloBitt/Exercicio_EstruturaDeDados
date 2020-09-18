@@ -36,6 +36,7 @@ public class Vetor<T> {
         
     }
     
+    //Adicionar elemento no Inicio
     public void adicionaInicio(T elemento){
         if (tamanho() >= vetor.length-1){
         redimensionar(vetor);
@@ -65,6 +66,7 @@ public class Vetor<T> {
     
    }
     
+    //Adicionar elemento em Posição indicada
     public void adicionaPosicao(T elemento, int pos){
         if (tamanho() >= vetor.length-1){
         redimensionar(vetor);
@@ -117,14 +119,39 @@ public class Vetor<T> {
     
    }
     
+    //Adicionar elemento no fim
+    public void adicionaFim(T elemento){
+        if (tamanho() >= vetor.length-1){
+        redimensionar(vetor);
+    }
+        
+    Iterator iter = new Iterador(vetor);
+    int i = 0;
+    int count = tamanho();
+    
+    while (iter.hasNext()){
+        if(!existeDado(i) && count == 0){
+                vetor[i] = elemento;
+                qntElementos++;
+                break;
+            }else if (existeDado(i)){
+            count--;
+        }
+        i++;
+    }
+   }
+    
+    //Verificar se existe dado
     public boolean existeDado(int posicao){
         return vetor[posicao] != null;
     }
     
+    //Retorna o tamanho do array
     private int tamanho(){
         return this.qntElementos;
     }
     
+    //Retorna o valor na posição 
     public T recuperar(int posicao){
         if ((posicao < 0 && posicao > tamanho()) || (!existeDado(posicao))){
             throw new ArrayIndexOutOfBoundsException("Posição Invalida");
@@ -132,6 +159,7 @@ public class Vetor<T> {
         return vetor[posicao];
     }
     
+    //Redimensiona(Dobra o tamanho)
     public void redimensionar(T[] vetor){
         T[] newVetor = (T[]) new Object[tamanho() * 2];
         for (int i = 0; i <= tamanho(); i++){
@@ -140,16 +168,25 @@ public class Vetor<T> {
         this.vetor = newVetor;
     }
     
+    //Esvazia o vetor
+    public void limpar(){
+        if(!vazio(vetor)){
+            Iterator iter = new Iterador(vetor);
+            int i = 0;
+            while (iter.hasNext()){
+                if (i > vetor.length - 1){
+                    break;
+                } else {
+                    vetor[i] = null;
+                }
+            }
+            qntElementos = 0;
+        }
+    }
     
-//    public void removerFim(){
-//        for(int i = 0; i < vetor.length; i++){
-//            if (vetor[i] == i){
-//                
-//            }
-//        }
-//    }
-    
-
-    
+    //Verificar se o vetor esta vazio
+    public boolean vazio(T[] vetor){
+        return tamanho() == 0;
+    }
     
 }
