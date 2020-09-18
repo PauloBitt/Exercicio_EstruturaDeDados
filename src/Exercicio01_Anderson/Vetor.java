@@ -21,10 +21,6 @@ public class Vetor<T> {
     //Variavel da quantidades de elementos
     private int qntElementos = 0;
     
-    //
-    public Vetor(){
-        this.vetor = vetor;
-    }
     
     //Construtor específico da Classe Vetor
     public Vetor(int tamanho){
@@ -32,7 +28,7 @@ public class Vetor<T> {
         //Novo Vetor Génerico
         vetor = (T[]) new Object[tamanho];
        
-        this.qntElementos = tamanho;
+        //this.qntElementos = tamanho;
         
     }
     
@@ -66,6 +62,26 @@ public class Vetor<T> {
     
    }
     
+    
+    //Remove do inicio
+    public void removerInicio(){
+        if (vazio(vetor)){
+        throw new ArrayIndexOutOfBoundsException("O vetor está vazio");
+    }
+    Iterator iter = new Iterador(vetor);
+    int i = 0;
+    
+    while (iter.hasNext()){
+        if(i < tamanho()){
+            vetor[i] = vetor[i + 1];
+        } else{
+            qntElementos--;
+            break;
+        }
+        i++;
+    }
+   }
+    
     //Adicionar elemento em Posição indicada
     public void adicionaPosicao(T elemento, int pos){
         if (tamanho() >= vetor.length-1){
@@ -74,6 +90,7 @@ public class Vetor<T> {
     if ((pos < 0 && pos > vetor.length)){
         throw new ArrayIndexOutOfBoundsException("Posição Invalida");
     }
+    
     Iterator iter = new Iterador(vetor);
     int i = 0;
     int count = 0;
@@ -91,33 +108,43 @@ public class Vetor<T> {
                     vetor[i + 1] = empurrar1;
                     break;
                 }
-                i++;
-                count++;
-            }
-            vetor[pos] = elemento;
-            qntElementos++;
-        }
-    }
-    
-    while (iter.hasNext()){
-        if(i < tamanho() && vetor[i] != null){
-            if (vetor[i + 1] == null){
                 empurrar2 = vetor[i + 1];
-                vetor[i + 2] = empurrar1;
+                vetor[i + 1] = empurrar1;
+                empurrar1 = empurrar2;
+            }
+            i++;
+            count++;
+        }
+        vetor[pos] = elemento;
+        qntElementos++;
+    }
+ }
+    
+    //Remove elemento da posição
+    public void removerPosicao(int pos){
+        if(vazio(vetor)){
+            throw new ArrayStoreException("O vetor está vazio");
+        }
+        
+        if ((pos < 0 && pos > tamanho()) || (!existeDado(pos))) {
+            throw new ArrayIndexOutOfBoundsException("Posição Inválida");
+        }
+        
+        Iterator iter = new Iterador(vetor);
+        int i = 0;
+        
+        while (iter.hasNext()){
+            if (i >= vetor.length - 1){
+                vetor[i] = null;
                 break;
             }
-            empurrar2 = vetor[i + 1];
-            vetor[i + 1] = empurrar1;
-            empurrar1 = empurrar2;
-        } else{
-            break;
+            if (i >= pos){
+                vetor[i] = vetor[i + 1];
+            }
+            i++;
         }
-        i++;
+        qntElementos--;
     }
-    vetor[0] = elemento;
-    qntElementos++;
-    
-   }
     
     //Adicionar elemento no fim
     public void adicionaFim(T elemento){
@@ -141,27 +168,49 @@ public class Vetor<T> {
     }
    }
     
+    //Remover elemento no fim
+    public void removerFim(){
+        if (vazio(vetor)) {
+            throw new ArrayIndexOutOfBoundsException("O vetor vazio");
+        }
+        
+    Iterator iter = new Iterador(vetor);
+    int i = 0;
+    int count = tamanho();
+    
+    while (iter.hasNext()){
+        if(count == 1){
+                vetor[i] = null;
+                break;
+            }else if (existeDado(i)){
+            count--;
+        }
+        i++;
+    }
+    qntElementos--;
+   }
+    
     //Verificar se existe dado
     public boolean existeDado(int posicao){
         return vetor[posicao] != null;
     }
     
     //Retorna o tamanho do array
-    private int tamanho(){
+    public int tamanho(){
         return this.qntElementos;
     }
     
     //Retorna o valor na posição 
-    public T recuperar(int posicao){
-        if ((posicao < 0 && posicao > tamanho()) || (!existeDado(posicao))){
+    public T recuperar(int pos){
+        if ((pos < 0 && pos > tamanho()) || (!existeDado(pos))){
             throw new ArrayIndexOutOfBoundsException("Posição Invalida");
         }
-        return vetor[posicao];
+        return vetor[pos];
     }
     
     //Redimensiona(Dobra o tamanho)
     public void redimensionar(T[] vetor){
-        T[] newVetor = (T[]) new Object[tamanho() * 2];
+        T[] newVetor = (T[]) new Object[(tamanho()+1) * 2];
         for (int i = 0; i <= tamanho(); i++){
             newVetor[i] = vetor[i];
         }
