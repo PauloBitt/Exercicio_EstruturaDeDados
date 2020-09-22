@@ -94,7 +94,7 @@ public class Vetor<T> {
     Iterator iter = new Iterador(vetor);
     int i = 0;
     int count = 0;
-    T empurrar1 = vetor[0];
+    T empurrar1 = vetor[pos];
     T empurrar2 = empurrar1;
     
     if (!existeDado(pos)){
