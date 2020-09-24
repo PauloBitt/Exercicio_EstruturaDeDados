@@ -46,7 +46,7 @@ public class Vetor<T> {
         if(i < tamanho() && vetor[i] != null){
             if (vetor[i + 1] == null){
                 empurrar2 = vetor[i + 1];
-                vetor[i + 2] = empurrar1;
+                vetor[i + 1] = empurrar1;
                 break;
             }
             empurrar2 = vetor[i + 1];
