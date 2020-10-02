@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Exercicio01_Anderson;
+package Exercicio01_Anderson_ListaSimples;
 
 /**
  *
  * @author paulo
  */
 
-import Exercicio01_Anderson.Aluno;
+import Exercicio01_Anderson_ListaSimples.Aluno;
 
 public class Main {
    public static void main(String[] args){
@@ -23,7 +23,7 @@ public class Main {
        Aluno a5 = new Aluno("Paulo", 26);
        Aluno a6 = new Aluno("Fernando", 19);
        
-       vetor.adicionaPosicao(a, 1);
+       vetor.adicionaPosicao(a, 0);
        vetor.adicionaFim(a2);
        vetor.adicionaFim(a3);
        vetor.adicionaPosicao(a5, 2);
@@ -33,17 +33,22 @@ public class Main {
     
        System.out.println(vetor.tamanho());
        
-       for (int i = 1; i < vetor.tamanho(); i++){
-           System.out.println(vetor.recuperar(i).getNome());
-       }
-       System.out.println("-".repeat(100));
-       vetor.adicionaInicio(a4);
        for (int i = 0; i < vetor.tamanho(); i++){
            System.out.println(vetor.recuperar(i).getNome());
        }
        System.out.println("-".repeat(100));
+       
+       vetor.adicionaInicio(a4);
+       
+       for (int i = 0; i < vetor.tamanho(); i++){
+           System.out.println(vetor.recuperar(i).getNome());
+       }
+       System.out.println("-".repeat(100));
+       
        vetor.removerFim();
+       
        vetor.removerInicio();
+       
        for (int i = 0; i < vetor.tamanho(); i++) {
             System.out.println(vetor.recuperar(i).getNome());
         }
@@ -56,11 +61,12 @@ public class Main {
        
        vetor.adicionaInicio(a6);
        
+       
        System.out.println("-".repeat(100));
        for (int i = 0; i < vetor.tamanho(); i++) {
             System.out.println(vetor.recuperar(i).getNome());
         }
-       
+        System.out.println(vetor.tamanho());
        
    }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Exercicio01_Anderson;
+package Exercicio01_Anderson_ListaSimples;
 
 /**
  *
