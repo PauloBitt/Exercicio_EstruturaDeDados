@@ -27,6 +27,38 @@ public class ListaEncadeada<T> {
         this.totalDeElementos = 0;
     }
     
+        public void adicionaPosicao(int pos, T elemento){
+        Iterador it = new Iterador(this.primeira);
+        int i = 0;
+        Celula nova = new Celula(elemento);
+        if ( pos < 0 || pos > tamanho()){
+            System.out.println("Posição invalida");
+        } else{
+            if (totalDeElementos == 0){
+            }else{
+            while (it.hasNext()) {
+                if (i != pos - 1) {
+                    it.next();
+                    i++;
+                } else {
+                    break;
+                }
+            }
+            }
+            if ( pos == 0){
+            adicionaInicio(elemento);
+            }else if (pos == totalDeElementos){
+                adicionaFim(elemento);
+            } else {
+                Celula bfr = it.getAtual();
+                Celula now = bfr.getProxima();
+                nova.setProxima(now);
+                bfr.setProxima(nova);
+                this.totalDeElementos++;
+            }
+        }
+    }
+    
     //Adicionar no Inicio da lista
     public void adicionaInicio(T elemento){//Funcionando
         Celula nova = new Celula(elemento);
@@ -40,23 +72,6 @@ public class ListaEncadeada<T> {
             primeira = nova;
             this.totalDeElementos ++;
         }
-    }
-    
-    public void removeInicio(){//Funcionando
-        Celula nova = new Celula();
-        if( this.totalDeElementos == 0){
-            throw new ArrayIndexOutOfBoundsException("Lista está vazia!");
-        } else if (this.totalDeElementos == 1){
-            limparLista();
-            totalDeElementos--;
-        } else {
-            nova = primeira.getProxima();
-            primeira.setProxima(null);
-            primeira = nova;
-            totalDeElementos--;
-        }
-        
-        
     }
     
     public void adicionaFim(T elemento){//Funcionando
@@ -74,28 +89,85 @@ public class ListaEncadeada<T> {
         }
     }
     
-//    public void adicionaPosicao(int pos, Lista elemento){
-//        Iterador iter = new Iterador();
-//        if ( tamanho() == 0){
-//            this.adicionaInicio(elemento);
-//        } 
-//        if ( pos < 0 || pos > tamanho()){
-//            System.out.println("Posição invalida");
-//        }
-//        
-//        else{
-//            for( int i = 0; i < tamanho() - 1; i++){
-//                atual = atual.getProxima();
-//            }
-//        }
-//    }
+    public void removerPosicao(int pos){
+        Iterador it = new Iterador(this.primeira);
+        int i = 0;
+        if ( pos < 0 || pos > tamanho()){
+            System.out.println("Posição invalida");
+        } else if(totalDeElementos == 1){
+            limparLista();
+            totalDeElementos--;
+        } else if(pos == 0){
+            removeInicio();
+        }else if (pos == totalDeElementos - 1){
+            removeFim();
+        }else{
+            if (totalDeElementos == 0){
+            }else{
+            while (it.hasNext()) {
+                if (i != pos - 1) {
+                    it.next();
+                    i++;
+                } else {
+                    break;
+                }
+            }
+            Celula bfr = it.getAtual();
+            Celula now = bfr.getProxima();
+            Celula next = now.getProxima();
+            
+            now.setProxima(null);
+            bfr.setProxima(next);
+            this.totalDeElementos--;
+        }
+    }
+    }
     
+    public void removeInicio(){//Funcionando
+        Celula nova = new Celula();
+        if( this.totalDeElementos == 0){
+            throw new ArrayIndexOutOfBoundsException("Lista está vazia!");
+        } else if (this.totalDeElementos == 1){
+            limparLista();
+            totalDeElementos--;
+        }else {
+            nova = primeira.getProxima();
+            primeira.setProxima(null);
+            primeira = nova;
+            totalDeElementos--;
+    }
+}
+    
+    
+    public void removeFim(){//Funcionando
+        Iterador it = new Iterador(this.primeira);
+        int i = 1;
+        if( this.totalDeElementos == 0){
+            throw new ArrayIndexOutOfBoundsException("Lista está vazia!");
+        }else if (this.totalDeElementos == 1){
+            limparLista();
+            totalDeElementos--;
+        } else{
+            while (it.hasNext()) {
+                if (i != tamanho() - 1) {
+                    it.next();
+                    i++;
+                } else {
+                    break;
+                }
+                ultima.setElemento(it.getAtual().getElemento());
+                ultima.setProxima(null);
+                totalDeElementos--;
+            } 
+        }
+    }
+       
     
     public int tamanho(){
         return this.totalDeElementos;
     }
     
-    public T Recupera(int posicao) {
+    public T Recupera(int posicao) {//Funcionando
         
         if (tamanho() == 0) {
             
@@ -124,12 +196,28 @@ public class ListaEncadeada<T> {
         }
     }
     
-    public void limparLista(){
+    public void limparLista(){//Funcinando
         if (this.totalDeElementos == 0){
             throw new ArrayIndexOutOfBoundsException("Lista já está vazia!");
         } else{
             primeira = null;
             ultima = null;
+        }
+    }
+    
+    public boolean existeDado(T elemento){//Não Funcionando
+        Iterador it = new Iterador(this.primeira);
+        if( this.totalDeElementos == 0){
+            throw new ArrayIndexOutOfBoundsException("Lista está vazia!");
+        } else {
+           while (it.hasNext()) {
+                if (it.getAtual().getElemento() != elemento) {
+                    it.next();
+                } else {
+                    break;
+                }
+            }
+            return it.getAtual().getElemento() == elemento;
         }
     }
 
