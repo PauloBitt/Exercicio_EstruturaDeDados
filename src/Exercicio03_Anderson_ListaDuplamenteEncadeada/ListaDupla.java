@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Exercicio02_Anderson_ListaEncadeada;
+package Exercicio03_Anderson_ListaDuplamenteEncadeada;
 
 /**
  *
  * @author paulo
  */
-
-
-
-public class ListaEncadeada<T> {
+public class ListaDupla<T> {
     
     private Celula primeira;
     
@@ -21,7 +18,7 @@ public class ListaEncadeada<T> {
     private int totalDeElementos;
     
     
-    public ListaEncadeada(){
+    public ListaDupla(){
         this.primeira = null;
         this.ultima = null;
         this.totalDeElementos = 0;
@@ -53,12 +50,50 @@ public class ListaEncadeada<T> {
             } else {
                 Celula bfr = it.getAtual();
                 Celula now = bfr.getProxima();
+                nova.setAnterior(bfr);
                 nova.setProxima(now);
                 bfr.setProxima(nova);
+                now.setAnterior(nova);
                 this.totalDeElementos++;
             }
         }
     }
+    
+        public void removerPosicao(int pos){
+        Iterador it = new Iterador(this.primeira);
+        int i = 0;
+        if ( pos < 0 || pos > tamanho()){
+            System.out.println("Posição invalida");
+        } else if(totalDeElementos == 0){
+            throw new ArrayIndexOutOfBoundsException("Lista está vazia!");
+        }else if(totalDeElementos == 1){
+            limparLista();
+            totalDeElementos--;
+        } else if(pos == 0){
+            removeInicio();
+        }else if (pos == totalDeElementos - 1){
+            removeFim();
+        }else{
+            while (it.hasNext()) {
+                if (i != pos - 1) {
+                    it.next();
+                    i++;
+                } else {
+                    break;
+                }
+            }
+            Celula bfr = it.getAtual();
+            Celula now = bfr.getProxima();
+            Celula next = now.getProxima();
+            
+            now.setProxima(null);
+            now.setAnterior(null);
+            bfr.setProxima(next);
+            next.setAnterior(bfr);
+            this.totalDeElementos--;
+        }
+    }
+   
     
     //Adicionar no Inicio da lista
     public void adicionaInicio(T elemento){//Funcionando
@@ -70,6 +105,9 @@ public class ListaEncadeada<T> {
             this.totalDeElementos++;
         } else{
             nova.setProxima(primeira);
+            nova.setAnterior(null);
+            primeira.setAnterior(nova);
+            primeira.setProxima(null);
             primeira = nova;
             this.totalDeElementos ++;
         }
@@ -84,46 +122,13 @@ public class ListaEncadeada<T> {
             totalDeElementos++;
         } else{
             nova.setProxima(null);
+            nova.setAnterior(ultima);
             ultima.setProxima(nova);
             ultima = nova;
             totalDeElementos++;
         }
     }
-    
-    public void removerPosicao(int pos){
-        Iterador it = new Iterador(this.primeira);
-        int i = 0;
-        if ( pos < 0 || pos > tamanho()){
-            System.out.println("Posição invalida");
-        } else if(totalDeElementos == 1){
-            limparLista();
-            totalDeElementos--;
-        } else if(pos == 0){
-            removeInicio();
-        }else if (pos == totalDeElementos - 1){
-            removeFim();
-        }else{
-            if (totalDeElementos == 0){
-            }else{
-            while (it.hasNext()) {
-                if (i != pos - 1) {
-                    it.next();
-                    i++;
-                } else {
-                    break;
-                }
-            }
-            Celula bfr = it.getAtual();
-            Celula now = bfr.getProxima();
-            Celula next = now.getProxima();
-            
-            now.setProxima(null);
-            bfr.setProxima(next);
-            this.totalDeElementos--;
-        }
-    }
-    }
-    
+       
     public void removeInicio(){//Funcionando
         Celula nova = new Celula();
         if( this.totalDeElementos == 0){
@@ -133,6 +138,7 @@ public class ListaEncadeada<T> {
             totalDeElementos--;
         }else {
             nova = primeira.getProxima();
+            nova.setAnterior(null);
             primeira.setProxima(null);
             primeira = nova;
             totalDeElementos--;
@@ -156,7 +162,11 @@ public class ListaEncadeada<T> {
                 } else {
                     break;
                 }
-                ultima.setElemento(it.getAtual().getElemento());
+                
+                Celula now = it.getAtual();
+                Celula bfr = now.getAnterior();
+                ultima.setElemento(now);
+                ultima.setAnterior(bfr);
                 ultima.setProxima(null);
                 totalDeElementos--;
             } 
