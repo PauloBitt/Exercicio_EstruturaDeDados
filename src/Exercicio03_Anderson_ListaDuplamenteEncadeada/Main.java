@@ -22,7 +22,7 @@ public class Main {
         Aluno a6 = new Aluno("Paulo", 19);
         
         //Criando a Lista Encadeada
-        ListaEncadeada lista = new ListaEncadeada();
+        ListaDupla lista = new ListaDupla();
 
         //Adicionando Alunos no inicio da lista
         lista.adicionaInicio(a1);

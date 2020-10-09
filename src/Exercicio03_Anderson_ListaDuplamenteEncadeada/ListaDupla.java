@@ -106,9 +106,10 @@ public class ListaDupla<T> {
         } else{
             nova.setProxima(primeira);
             nova.setAnterior(null);
-            primeira.setAnterior(nova);
-            primeira.setProxima(null);
             primeira = nova;
+            Celula next = primeira.getProxima();
+            next.setAnterior(primeira);
+            
             this.totalDeElementos ++;
         }
     }
